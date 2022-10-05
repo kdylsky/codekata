@@ -99,5 +99,3 @@ def solution(n):
         answer += "수"
 
     return answer
-
-

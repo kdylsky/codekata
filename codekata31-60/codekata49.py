@@ -171,6 +171,8 @@ def solution(nums):
         result.append(len(set(i)))
     return max(result)
 
+
+
 """
 숫자 짝꿍
 문제 설명
@@ -190,24 +192,91 @@ x와 y를 list와 set으로 만들어서 공통된 요소를 찾는다.
 def solution(X, Y):
     answer = ''
     dit = {}
-    temp = set(X).intersection(set(Y))
-    result = []
-    
+    temp = list(set(X).intersection(set(Y)))
+    if len(temp) == 0:
+        return "-1"
+    if len(temp) == 1 and temp[0] == "0":
+        return "0"
     for i in temp:
         x = X.count(i)
         y = Y.count(i)
-
-        if x == y:
-            dit[i] = x
-        elif x > y:
+        
+        if x > y:
             dit[i] = y
-        elif x < y:
+        elif x <y:
             dit[i] = x
-    
+        else:
+            dit[i] = x
+    a = sorted(dit, key=lambda x : x[0] ,reverse= True)    
+    for i in a:
+        answer += i*dit[i]
     return answer
 
 
-X = "5525"
-Y = "1255"
-result = solution(X,Y)
-# print(result)
+def solution(X, Y):
+    from collections import Counter
+
+    inter = Counter(X) & Counter(Y)
+    if not inter:
+        return "-1"
+    elif "0" in inter and len(inter) == 1:
+        return "0"
+    return "".join(sorted(inter.elements())[::-1])
+
+
+
+"""
+삼총사
+문제 설명
+한국중학교에 다니는 학생들은 각자 정수 번호를 갖고 있습니다. 
+이 학교 학생 3명의 정수 번호를 더했을 때 0이 되면 3명의 학생은 삼총사라고 합니다. 
+예를 들어, 5명의 학생이 있고, 각각의 정수 번호가 순서대로 -2, 3, 0, 2, -5일 때, 
+첫 번째, 세 번째, 네 번째 학생의 정수 번호를 더하면 0이므로 세 학생은 삼총사입니다. 
+또한, 두 번째, 네 번째, 다섯 번째 학생의 정수 번호를 더해도 0이므로 세 학생도 삼총사입니다. 
+따라서 이 경우 한국중학교에서는 두 가지 방법으로 삼총사를 만들 수 있습니다.
+
+한국중학교 학생들의 번호를 나타내는 정수 배열 number가 매개변수로 주어질 때, 
+학생들 중 삼총사를 만들 수 있는 방법의 수를 return 하도록 solution 함수를 완성하세요.
+"""
+from itertools import permutations # 순열
+from itertools import combinations # 조합
+
+from itertools import product # 중복 순열
+from itertools import combinations_with_replacement # 중복 조합
+
+def solution(number):
+    answer = 0
+    result = list(combinations(number, 3))
+    for i in result: 
+        if sum(i) == 0:
+            answer += 1    
+    return answer
+
+number = [-1, 1, -1, 1]
+result = solution(number)
+print(result)
+
+
+
+
+
+
+
+from itertools import permutations # 순열
+from itertools import combinations # 조합
+
+from itertools import product # 중복 순열
+from itertools import combinations_with_replacement # 중복 조합
+
+a = ["A","B","C"]
+
+result = list(permutations(a, 2))
+print(result)
+result = list(combinations(a, 2))
+print(result)
+
+result = list(product(a, repeat = 2))
+print(result)
+
+result = list(combinations_with_replacement(a, 2))
+print(result)
